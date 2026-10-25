@@ -31,7 +31,7 @@ test("os dados do projeto (coqueiros e refletores) continuam na obra", () => {
   assert.ok(pronta.includes('"fix"'));
 });
 
-const abas = [...pronta.matchAll(/<button role="tab"[^>]*>([^<]+)<\/button>/g)].map((m) => m[1]);
+const abas = [...pronta.matchAll(/<button [^>]*role="tab"[^>]*>([^<]+)<\/button>/g)].map((m) => m[1]);
 
 test("as abas são Projeto, Resultados, Luz, Luminárias e Cena, nessa ordem", () => {
   assert.deepEqual(abas, ["Projeto", "Resultados", "Luz", "Luminárias", "Cena"]);

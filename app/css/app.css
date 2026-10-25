@@ -1,14 +1,14 @@
 :root {
-  --marinho: #12233a;
-  --marinho-profundo: #0a1626;
-  --marinho-medio: #1e3553;
-  --dourado: #c9a24e;
-  --dourado-claro: #e8c873;
+  --marinho: #022449;
+  --marinho-profundo: #041F3D;
+  --marinho-medio: #0A2B4E;
+  --dourado: #FDB50B;
+  --dourado-claro: #FDB50B;
   --papel: #f5f1e8;
   --cinza-claro: #9aa3b2;
   --erro: #e8a08f;
-  --f-display: "Barlow Condensed", "Arial Narrow", sans-serif;
-  --f-corpo: "Barlow", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --f-display: "Montserrat", system-ui, sans-serif;
+  --f-corpo: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -40,6 +40,7 @@ body {
 }
 
 .selo { height: 44px; width: auto; display: block; }
+.logo { display: block; }
 
 .marca-rg {
   font-family: var(--f-display);
