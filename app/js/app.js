@@ -98,3 +98,9 @@ $("#trocar").addEventListener("click", () => {
 
 desenharLista(await carregarIndice());
 mostrar("lista");
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch(() => {
+    // Sem service worker o app continua funcionando, só não abre offline.
+  });
+}
