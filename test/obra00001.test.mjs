@@ -30,3 +30,21 @@ test("os dados do projeto (coqueiros e refletores) continuam na obra", () => {
   assert.ok(pronta.includes('"trees"'));
   assert.ok(pronta.includes('"fix"'));
 });
+
+const abas = [...pronta.matchAll(/<button role="tab"[^>]*>([^<]+)<\/button>/g)].map((m) => m[1]);
+
+test("as abas são Projeto, Resultados, Luz, Luminárias e Cena, nessa ordem", () => {
+  assert.deepEqual(abas, ["Projeto", "Resultados", "Luz", "Luminárias", "Cena"]);
+});
+
+test("não sobrou aba antiga (Vagas, Coqueiros, Ajustes, Refletores)", () => {
+  for (const antiga of ["Vagas", "Coqueiros", "Ajustes", "Refletores", "Resultado"]) {
+    assert.ok(!abas.includes(antiga), `ainda existe a aba ${antiga}`);
+  }
+});
+
+test("cada aba tem o painel correspondente", () => {
+  for (const id of ["proj", "res", "luz", "fix", "cena"]) {
+    assert.ok(pronta.includes(`id="pane-${id}"`), `falta pane-${id}`);
+  }
+});
