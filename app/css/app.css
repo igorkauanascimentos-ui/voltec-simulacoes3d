@@ -1,195 +1,235 @@
+/* Identidade Voltec (voltec-identidade.md): azul marinho dominante, amarelo só em destaque. */
 :root {
-  --marinho: #022449;
-  --marinho-profundo: #041F3D;
-  --marinho-medio: #0A2B4E;
-  --dourado: #FDB50B;
-  --dourado-claro: #FDB50B;
-  --papel: #f5f1e8;
-  --cinza-claro: #9aa3b2;
-  --erro: #e8a08f;
-  --f-display: "Montserrat", system-ui, sans-serif;
-  --f-corpo: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --voltec-azul: #022449;
+  --voltec-azul-claro: #0A2B4E;
+  --voltec-azul-escuro: #041F3D;
+  --voltec-amarelo: #FDB50B;
+  --voltec-branco: #FFFFFF;
+  --voltec-cinza-gelo: #E8E9EB;
+  --voltec-cinza-claro: #909195;
+  --voltec-cinza-escuro: #444444;
+  --voltec-fonte: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --voltec-raio-canto: 14px;
 }
 
 * { box-sizing: border-box; }
 
 html, body {
   margin: 0;
-  height: 100%;
-  background: var(--marinho);
-  color: var(--papel);
-  font-family: var(--f-corpo);
-  overflow-x: hidden;
+  min-height: 100%;
+  font-family: var(--voltec-fonte);
+  color: var(--voltec-branco);
+  background: linear-gradient(180deg, var(--voltec-azul-claro) 0%, var(--voltec-azul-escuro) 100%) fixed;
+  background-color: var(--voltec-azul-escuro);
 }
 
 body {
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+/* cabeçalho: só a logo e o nome da seção */
 .topo {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 16px;
-  background: var(--marinho-profundo);
-  border-bottom: 1px solid var(--dourado);
+  padding: 14px 20px;
+  border-bottom: 1px solid rgba(253, 181, 11, 0.35);
+}
+.logo { height: 34px; width: auto; display: block; }
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--voltec-cinza-gelo);
 }
 
-.selo { height: 44px; width: auto; display: block; }
-.logo { display: block; }
-
-.marca-rg {
-  font-family: var(--f-display);
-  font-weight: 700;
-  font-size: 1rem;
-  letter-spacing: 0.02em;
-  color: var(--dourado-claro);
-}
-
-main { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+main { flex: 1; display: flex; flex-direction: column; }
 
 .tela {
-  padding: 24px 16px 32px;
-  max-width: 560px;
   width: 100%;
+  max-width: 520px;
   margin: 0 auto;
+  padding: 28px 20px 40px;
 }
 
+.hero { margin-bottom: 28px; }
 .sobretitulo {
-  margin: 0 0 4px;
-  font-size: 0.8rem;
+  margin: 0 0 10px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--dourado);
+  color: var(--voltec-cinza-gelo);
 }
-
 h1 {
-  margin: 0 0 20px;
-  font-family: var(--f-display);
+  margin: 0;
+  font-size: 34px;
   font-weight: 700;
-  font-size: 2.25rem;
-  line-height: 1.05;
-  text-transform: uppercase;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.destaque { color: var(--voltec-amarelo); }
+.apoio {
+  margin: 14px 0 0;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--voltec-cinza-gelo);
 }
 
-.cards { display: flex; flex-direction: column; gap: 10px; }
+.rotulo {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--voltec-cinza-gelo);
+}
+.rotulo::after {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 3px;
+  margin-top: 8px;
+  background: var(--voltec-amarelo);
+  border-radius: 2px;
+}
 
+/* cartões em azul, um tom mais claro que o fundo */
+.cards { display: flex; flex-direction: column; gap: 12px; }
 .card {
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 16px;
-  background: var(--marinho-medio);
-  color: var(--papel);
-  border: 1px solid var(--dourado);
-  border-radius: 0;
+  padding: 18px 20px;
+  background: var(--voltec-azul-claro);
+  color: var(--voltec-branco);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  border-radius: var(--voltec-raio-canto);
   font: inherit;
   text-align: left;
   cursor: pointer;
 }
-
-.card .rg {
-  font-family: var(--f-display);
+.card:hover { border-color: var(--voltec-amarelo); }
+.card .rg { font-size: 20px; font-weight: 700; }
+.card .sub { font-size: 13px; color: var(--voltec-cinza-claro); margin-top: 2px; }
+.card .seta {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--voltec-amarelo);
+  color: var(--voltec-azul);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 700;
-  font-size: 1.6rem;
-  letter-spacing: 0.04em;
-}
-
-.card .sub { font-size: 0.85rem; color: var(--cinza-claro); }
-
-.card:focus-visible,
-.botao:focus-visible,
-.link:focus-visible,
-input:focus-visible {
-  outline: 2px solid var(--dourado-claro);
-  outline-offset: 2px;
+  flex: none;
 }
 
 .aviso {
   margin: 16px 0 0;
-  padding: 12px;
-  border-left: 3px solid var(--dourado);
-  background: var(--marinho-profundo);
-  color: var(--papel);
-  font-size: 0.95rem;
+  padding: 14px 16px;
+  border-left: 3px solid var(--voltec-amarelo);
+  background: var(--voltec-azul-escuro);
+  border-radius: 0 var(--voltec-raio-canto) var(--voltec-raio-canto) 0;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-.form { display: flex; flex-direction: column; gap: 12px; }
-
-.form label { font-size: 0.9rem; color: var(--cinza-claro); }
-
+.form { display: flex; flex-direction: column; gap: 14px; }
+.form h1 { margin-bottom: 4px; }
+.form label { font-size: 13px; color: var(--voltec-cinza-gelo); }
 .form input {
   font: inherit;
-  font-size: 1.1rem;
-  padding: 12px;
-  background: var(--marinho-profundo);
-  color: var(--papel);
-  border: 1px solid var(--marinho-medio);
-  border-radius: 0;
+  font-size: 18px;
+  padding: 14px 16px;
+  background: var(--voltec-azul-escuro);
+  color: var(--voltec-branco);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: var(--voltec-raio-canto);
   width: 100%;
 }
+.form input:focus { border-color: var(--voltec-amarelo); }
 
 .botao {
   font: inherit;
-  font-weight: 600;
-  padding: 14px;
-  background: var(--dourado);
-  color: var(--marinho-profundo);
+  font-weight: 700;
+  font-size: 16px;
+  padding: 15px;
+  background: var(--voltec-amarelo);
+  color: var(--voltec-azul);
   border: 0;
-  border-radius: 4px;
+  border-radius: 12px;
   cursor: pointer;
 }
 
 .link {
   font: inherit;
-  padding: 8px 0;
+  font-size: 14px;
+  padding: 10px 0;
   background: none;
   border: 0;
-  color: var(--dourado-claro);
+  color: var(--voltec-branco);
   text-align: left;
   cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .erro {
   margin: 0;
-  color: var(--erro);
-  font-size: 0.95rem;
+  padding: 12px 14px;
+  background: rgba(255, 125, 102, 0.12);
+  border-radius: var(--voltec-raio-canto);
+  color: #ffd3c9;
+  font-size: 14px;
 }
 
-.visor {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
+.visor { flex: 1; display: flex; flex-direction: column; min-height: 0; }
 .barra {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 16px;
-  background: var(--marinho-profundo);
-  border-bottom: 1px solid var(--marinho-medio);
+  padding: 10px 16px;
+  background: var(--voltec-azul);
+  border-bottom: 1px solid rgba(253, 181, 11, 0.35);
 }
-
 .visor-rg {
-  font-family: var(--f-display);
+  font-size: 13px;
   font-weight: 700;
-  color: var(--dourado-claro);
+  color: var(--voltec-amarelo);
+  letter-spacing: 0.06em;
 }
-
 #obra {
   flex: 1;
   width: 100%;
   min-height: 0;
   border: 0;
-  background: var(--marinho-profundo);
+  background: var(--voltec-azul-escuro);
+}
+
+.rodape {
+  padding: 18px 20px 26px;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--voltec-cinza-claro);
 }
 
 [hidden] { display: none !important; }
+
+:focus-visible {
+  outline: 2px solid var(--voltec-amarelo);
+  outline-offset: 2px;
+}
+
+@media (min-width: 720px) {
+  h1 { font-size: 42px; }
+}

@@ -33,8 +33,8 @@ test("os dados do projeto (coqueiros e refletores) continuam na obra", () => {
 
 const abas = [...pronta.matchAll(/<button [^>]*role="tab"[^>]*>([^<]+)<\/button>/g)].map((m) => m[1]);
 
-test("as abas são Projeto, Resultados, Luz, Luminárias e Cena, nessa ordem", () => {
-  assert.deepEqual(abas, ["Projeto", "Resultados", "Luz", "Luminárias", "Cena"]);
+test("as abas são Resumo, Tabelas, Ajustar, Luminárias e Cena, nessa ordem", () => {
+  assert.deepEqual(abas, ["Resumo", "Tabelas", "Ajustar", "Luminárias", "Cena"]);
 });
 
 test("não sobrou aba antiga (Vagas, Coqueiros, Ajustes, Refletores)", () => {

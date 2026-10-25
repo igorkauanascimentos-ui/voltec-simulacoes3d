@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Voltec · Simulações 3D</title>
-  <meta name="theme-color" content="#12233A">
+  <title>Voltec · Simulações de iluminação</title>
+  <meta name="description" content="Simulação de iluminação da sua obra. Voltec Soluções Elétricas, eletricista.">
+  <meta name="theme-color" content="#022449">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="img/icon-192.png">
   <link rel="stylesheet" href="vendor/montserrat.css">
@@ -12,14 +13,18 @@
 </head>
 <body>
   <header class="topo">
-    <span class="logo" role="img" aria-label="Voltec Soluções Elétricas"><img src="img/logo.svg" alt="" class="selo"></span>
-    <span class="marca-rg">RG Elétrico</span>
+    <img src="img/logo-branca.svg" alt="Voltec Soluções Elétricas" class="logo">
+    <span class="tag">Simulações 3D</span>
   </header>
 
   <main>
     <section id="lista" class="tela">
-      <p class="sobretitulo">Obras</p>
-      <h1>Escolha o RG</h1>
+      <div class="hero">
+        <p class="sobretitulo">Antes da obra</p>
+        <h1>Veja como a luz<br><span class="destaque">vai ficar</span></h1>
+        <p class="apoio">Digite o número do RG da sua obra e a senha que a Voltec enviou.</p>
+      </div>
+      <p class="rotulo">Suas obras</p>
       <div id="cards" class="cards"></div>
       <p id="aviso" class="aviso" hidden></p>
     </section>
@@ -30,7 +35,7 @@
         <h1>Digite a senha</h1>
         <label for="campoSenha">Senha da obra</label>
         <input id="campoSenha" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" required>
-        <button type="submit" class="botao">Abrir</button>
+        <button type="submit" class="botao">Abrir simulação</button>
         <button type="button" id="voltarLista" class="link">Voltar às obras</button>
         <p id="erroSenha" class="erro" role="alert" hidden></p>
       </form>
@@ -38,12 +43,14 @@
 
     <section id="visor" class="visor" hidden>
       <div class="barra">
-        <button type="button" id="trocar" class="link">← Trocar obra</button>
+        <button type="button" id="trocar" class="link">← Obras</button>
         <span id="visorRG" class="visor-rg"></span>
       </div>
       <iframe id="obra" title="Simulação 3D da obra" sandbox="allow-scripts allow-same-origin"></iframe>
     </section>
   </main>
+
+  <footer class="rodape">Voltec Soluções Elétricas · eletricista</footer>
 
   <script type="module" src="js/app.js"></script>
 </body>
