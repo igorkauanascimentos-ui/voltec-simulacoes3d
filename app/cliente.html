@@ -3,107 +3,61 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <title>Sua simulação de iluminação · Voltec</title>
-  <meta name="description" content="Veja como a luz da sua obra vai ficar. Voltec Soluções Elétricas, eletricista.">
+  <title>Seu projeto · Voltec</title>
+  <meta name="description" content="Veja como a luz do seu projeto fica à noite, antes de instalar. Voltec Soluções Elétricas.">
   <meta name="theme-color" content="#022449">
   <link rel="icon" href="img/icon-192.png">
   <link rel="stylesheet" href="vendor/montserrat.css">
-  <style>
-    :root{--azul:#022449;--azul-claro:#0A2B4E;--azul-fundo:#041F3D;--amarelo:#FDB50B;--branco:#FFFFFF;--gelo:#E8E9EB;--cinza:#909195;--cinza-escuro:#444444;--fonte:"Montserrat",system-ui,sans-serif}
-    *{box-sizing:border-box}
-    html,body{margin:0;height:100%;font-family:var(--fonte);color:var(--branco);background:var(--azul-fundo);overflow:hidden}
-    body{display:flex;flex-direction:column}
-    header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:var(--azul);border-bottom:1px solid rgba(253,181,11,.35)}
-    header img{height:26px}
-    header span{font-size:14px;font-weight:700;color:var(--gelo)}
-    main{flex:1;position:relative;min-height:0;display:flex;flex-direction:column}
-    /* tela de senha */
-    #entrada{margin:auto;width:100%;max-width:420px;padding:28px 22px}
-    #entrada h1{margin:0 0 8px;font-size:26px;font-weight:800;line-height:1.2}
-    #entrada h1 span{color:var(--amarelo)}
-    #entrada p{margin:0 0 20px;font-size:15px;color:var(--gelo)}
-    #entrada label{display:block;font-size:14px;margin-bottom:6px;color:var(--gelo)}
-    #entrada input{width:100%;font:inherit;font-size:18px;padding:14px 16px;border-radius:10px;border:2px solid rgba(255,255,255,.3);background:var(--azul);color:var(--branco)}
-    #entrada input:focus{outline:none;border-color:var(--amarelo)}
-    #entrada button{margin-top:14px;width:100%;font:inherit;font-weight:700;font-size:16px;padding:15px;border:0;border-radius:12px;background:var(--amarelo);color:var(--azul);cursor:pointer}
-    #entrada .erro{margin:14px 0 0;font-size:15px;color:#FFD3C9}
-    /* simulação */
-    #palco{flex:1;position:relative;min-height:0;display:none}
-    #palco iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--azul-fundo)}
-    /* eletricista e explicação */
-    #guia{position:absolute;left:0;right:0;bottom:0;display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:end;padding:14px 16px 16px;background:linear-gradient(180deg,rgba(2,36,73,0) 0%,rgba(2,36,73,.96) 30%);}
-    #guia svg{width:110px;height:auto;display:block}
-    #balao{background:var(--branco);color:var(--azul);border-radius:16px 16px 16px 4px;padding:14px 16px;position:relative;font-size:15px;line-height:1.5;box-shadow:0 6px 18px rgba(0,0,0,.25)}
-    #balao strong{display:block;font-size:12px;letter-spacing:.02em;color:var(--cinza-escuro);margin-bottom:2px}
-    #balao .resultado{margin-top:8px;padding-top:8px;border-top:1px solid var(--gelo);font-size:14px;color:var(--cinza-escuro)}
-    .proximo{margin-top:10px;font:inherit;font-weight:700;font-size:14px;padding:9px 14px;border:0;border-radius:10px;background:var(--azul);color:var(--branco);cursor:pointer}
-    /* controles simples */
-    #controles{position:absolute;left:0;right:0;top:0;padding:12px 14px;display:flex;flex-direction:column;gap:8px;background:linear-gradient(180deg,rgba(2,36,73,.94) 0%,rgba(2,36,73,0) 100%)}
-    .grupo{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-    .grupo b{font-size:13px;font-weight:700;color:var(--gelo);min-width:92px}
-    .opcao{font:inherit;font-size:14px;font-weight:600;padding:9px 13px;border-radius:10px;border:2px solid rgba(255,255,255,.35);background:transparent;color:var(--branco);cursor:pointer;min-height:40px}
-    .opcao[aria-pressed="true"]{background:var(--amarelo);border-color:var(--amarelo);color:var(--azul)}
-    :focus-visible{outline:3px solid var(--amarelo);outline-offset:2px}
-    .aviso-ok{font-size:14px;color:var(--gelo);padding:0 2px}
-    @media (min-width:720px){
-      #entrada{margin:auto;padding:40px}
-      #guia{grid-template-columns:150px minmax(0,520px);left:auto;right:24px;bottom:24px;width:auto;background:none;padding:0}
-      #guia svg{width:150px}
-      #controles{left:auto;right:24px;top:auto;bottom:auto;max-width:380px;padding:16px;border-radius:14px;background:rgba(2,36,73,.94);top:16px}
-    }
-    @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-  </style>
+  <link rel="stylesheet" href="css/cliente.css">
 </head>
 <body>
-  <header>
-    <img src="img/logo-branca.svg" alt="Voltec Soluções Elétricas">
-    <span id="rgTopo"></span>
+  <header class="topo">
+    <img src="img/logo-branca.svg" alt="Voltec Soluções Elétricas" class="logo">
+    <span id="rgTopo" class="rg"></span>
   </header>
 
   <main>
-    <section id="entrada">
-      <h1>Veja a luz da sua obra <span>antes de instalar</span></h1>
-      <p>Digite a senha que a Voltec enviou para você.</p>
-      <form id="formCliente">
-        <label for="senhaCliente">Senha</label>
-        <input id="senhaCliente" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" required>
-        <button type="submit">Abrir minha simulação</button>
-        <p id="erroCliente" class="erro" role="alert" hidden></p>
-      </form>
+    <section id="inicio" class="inicio">
+      <div class="inicio-caixa">
+        <img class="eletricista-grande" src="img/eletricista.png" alt="Eletricista Voltec" width="240" height="494">
+        <h1>Veja o seu projeto</h1>
+        <p id="rgInicio" class="rg-grande"></p>
+        <p class="apoio">Como a luz vai ficar à noite, antes de instalar. Você escolhe a potência e a cor, e vê o resultado na hora.</p>
+        <button id="ver" class="botao-grande" type="button" disabled>Ver meu projeto</button>
+        <p id="avisoTexto" class="aviso" role="alert" hidden></p>
+      </div>
     </section>
 
     <section id="palco">
-      <iframe id="obraCliente" title="Simulação 3D da sua obra"></iframe>
+      <iframe id="obraCliente" title="Simulação 3D do seu projeto"></iframe>
 
-      <div id="controles" role="group" aria-label="Ajustes da luz">
-        <div class="grupo" data-grupo="intensidade">
-          <b>Intensidade</b>
-          <button class="opcao" data-acao="potencia" data-v="10" aria-pressed="false">Suave</button>
-          <button class="opcao" data-acao="potencia" data-v="15" aria-pressed="true">Padrão</button>
-          <button class="opcao" data-acao="potencia" data-v="30" aria-pressed="false">Forte</button>
-        </div>
-        <div class="grupo" data-grupo="temperatura">
-          <b>Temperatura</b>
-          <button class="opcao" data-acao="cor" data-v="2700" aria-pressed="false">Aconchegante</button>
-          <button class="opcao" data-acao="cor" data-v="3000" aria-pressed="true">Quente</button>
-          <button class="opcao" data-acao="cor" data-v="4000" aria-pressed="false">Neutra</button>
-        </div>
-        <div class="grupo" data-grupo="altura">
-          <b>Altura</b>
-          <button class="opcao" data-acao="altura" data-v="4" aria-pressed="false">4 m</button>
-          <button class="opcao" data-acao="altura" data-v="5" aria-pressed="true">5 m</button>
-          <button class="opcao" data-acao="altura" data-v="6" aria-pressed="false">6 m</button>
-        </div>
-      </div>
+      <div id="painel">
+        <div class="progresso" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
 
-      <div id="guia">
-        <img class="eletricista" src="img/eletricista.svg" alt="" width="110" height="154">
-        <div id="balao" role="status" aria-live="polite">
-          <strong>Eletricista Voltec</strong>
-          <span id="falaTexto"></span>
-          <div class="resultado" id="resultadoTexto" hidden></div>
-          <button class="proximo" id="proximo" type="button">Próximo</button>
+        <div class="guia">
+          <img class="eletricista" src="img/eletricista.png" alt="Eletricista Voltec" width="150" height="308">
+          <div class="balao" role="status" aria-live="polite">
+            <p id="falaTexto"></p>
+          </div>
         </div>
+
+        <div id="controles">
+          <div class="grupo" data-grupo="intensidade" hidden>
+            <p class="nome">Potência</p>
+            <div class="opcoes"></div>
+          </div>
+          <div class="grupo" data-grupo="temperatura" hidden>
+            <p class="nome">Cor da luz</p>
+            <div class="opcoes"></div>
+          </div>
+        </div>
+
+        <div id="resultado" class="resultado" hidden>
+          <p class="resultado-titulo">Resultado da sua escolha</p>
+          <p id="resultadoTexto"></p>
+        </div>
+
+        <button id="proximo" class="botao" type="button">Próximo</button>
       </div>
     </section>
   </main>

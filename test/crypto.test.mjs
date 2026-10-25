@@ -1,6 +1,20 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { encryptObra, decryptObra } from "../app/js/crypto.js";
+import { encryptObra, decryptObra, encryptComChave, decryptComChave, gerarChave } from "../app/js/crypto.js";
+
+test("chave do cliente: roundtrip e chave errada rejeita", async () => {
+  const chave = gerarChave();
+  const html = "<p>Garagem</p>".repeat(3000);
+  const obj = await encryptComChave(html, chave);
+  assert.equal(await decryptComChave(obj, chave), html);
+  await assert.rejects(decryptComChave(obj, gerarChave()));
+});
+
+test("chave do cliente tem 43 caracteres em base64url, sem sinais de padding", () => {
+  const chave = gerarChave();
+  assert.equal(chave.length, 43);
+  assert.match(chave, /^[A-Za-z0-9_-]+$/);
+});
 
 test("roundtrip devolve o HTML original", async () => {
   const html = "<p>Garagem · 75 lux</p>".repeat(5000); // ~120 KB, passa do limite de argumentos

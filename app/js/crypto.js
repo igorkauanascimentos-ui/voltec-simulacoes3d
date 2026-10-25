@@ -40,3 +40,32 @@ export async function decryptObra(obj, senha) {
   const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromBase64(obj.iv) }, key, fromBase64(obj.ct));
   return dec.decode(pt);
 }
+
+// Chave do cliente: 32 bytes aleatórios, em base64url. Vai no link (#chave), sem senha.
+export function gerarChave() {
+  return paraBase64Url(crypto.getRandomValues(new Uint8Array(32)));
+}
+
+function paraBase64Url(bytes) {
+  return toBase64(bytes).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function deBase64Url(str) {
+  const padrao = str.replace(/-/g, "+").replace(/_/g, "/");
+  return fromBase64(padrao + "=".repeat((4 - (padrao.length % 4)) % 4));
+}
+
+function chaveAes(chave) {
+  return crypto.subtle.importKey("raw", deBase64Url(chave), "AES-GCM", false, ["encrypt", "decrypt"]);
+}
+
+export async function encryptComChave(html, chave) {
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv }, await chaveAes(chave), enc.encode(html)));
+  return { v: 2, iv: toBase64(iv), ct: toBase64(ct) };
+}
+
+export async function decryptComChave(obj, chave) {
+  const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: fromBase64(obj.iv) }, await chaveAes(chave), fromBase64(obj.ct));
+  return dec.decode(pt);
+}

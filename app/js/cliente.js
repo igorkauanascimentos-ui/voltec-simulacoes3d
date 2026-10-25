@@ -1,102 +1,177 @@
-import { decryptObra } from "./crypto.js";
-import { mensagemDeErro } from "./erros.js";
+import { decryptComChave } from "./crypto.js";
 
 const $ = (id) => document.getElementById(id);
-const rg = new URLSearchParams(location.search).get("rg") || "00001";
-$("rgTopo").textContent = `RG ${rg}`;
+const rg = new URLSearchParams(location.search).get("rg");
+const chave = location.hash.slice(1) || null;
 
-// O que o eletricista fala em cada passo. Uma fala por vez, em frases curtas.
-const falas = [
-  "Esta é a sua garagem à noite. Cada ponto de luz é um refletor.",
-  "Escolha a intensidade. Mais forte ilumina melhor, mas consome mais energia.",
-  "A temperatura muda o clima. Aconchegante deixa a luz mais amarelada. Neutra fica mais branca.",
-  "Escolha a altura dos refletores. O resultado aparece aqui, logo abaixo.",
+// Cada passo é uma fala do eletricista. Os controles aparecem no passo em que ele os apresenta.
+const passos = [
+  {
+    fala: "Oi, eu sou o eletricista da Voltec. Este é o seu projeto à noite, com a luz desenhada para ele. Vou te mostrar como ajustar.",
+    mostra: [],
+  },
+  {
+    fala: "Primeiro, a potência. Ela define o quanto a luz ilumina. Toque numa opção e veja a cena mudar.",
+    mostra: ["intensidade"],
+  },
+  {
+    fala: "Agora, a cor. A luz quente deixa o ambiente acolhedor. A neutra deixa tudo mais nítido. Escolha a que preferir.",
+    mostra: ["intensidade", "temperatura"],
+  },
+  {
+    fala: "Pronto. Este é o resultado da sua escolha. Se quiser, volte e teste outra combinação.",
+    mostra: ["intensidade", "temperatura"],
+    resultado: true,
+  },
 ];
+
+// O cliente mexe só nos controles que a simulação marca com data-cliente (potência e cor).
+// Cada um aciona o botão equivalente da simulação, que tem o mesmo data-v.
+const grupos = {
+  intensidade: { seletor: "#allW", opcoes: [] },
+  temperatura: { seletor: "#allC", opcoes: [] },
+};
+
 let passo = 0;
 let doc = null;
 
-function mostrarFala() {
-  $("falaTexto").textContent = falas[passo];
-  $("proximo").textContent = passo === falas.length - 1 ? "Recomeçar" : "Próximo";
-  $("resultadoTexto").hidden = true;
+function falar(texto) {
+  const balao = document.querySelector(".balao");
+  $("falaTexto").textContent = texto;
+  balao.classList.remove("trocando");
+  void balao.offsetWidth; // reinicia a animação de entrada
+  balao.classList.add("trocando");
 }
 
-// Os botões do cliente seguem o que a simulação mostra, inclusive no primeiro carregamento.
-const grupos = { potencia: "allW", cor: "allC", altura: "allH" };
-function sincronizarBotoes() {
-  for (const [acao, id] of Object.entries(grupos)) {
-    const marcado = doc.querySelector(`#${id} [aria-pressed="true"]`);
+function montarOpcoes() {
+  for (const [nome, grupo] of Object.entries(grupos)) {
+    const caixa = document.querySelector(`[data-grupo="${nome}"] .opcoes`);
+    caixa.replaceChildren();
+    grupo.opcoes = [];
+    for (const chip of doc.querySelectorAll(`${grupo.seletor} [data-cliente]`)) {
+      const opcao = { v: chip.dataset.v, nome: chip.dataset.cliente, reacao: chip.dataset.reacao };
+      grupo.opcoes.push(opcao);
+      const botao = document.createElement("button");
+      botao.type = "button";
+      botao.className = "opcao";
+      botao.dataset.v = opcao.v;
+      botao.textContent = opcao.nome;
+      botao.setAttribute("aria-pressed", "false");
+      botao.addEventListener("click", () => escolher(nome, opcao));
+      caixa.append(botao);
+    }
+  }
+}
+
+// Os botões mostram o que a simulação está mostrando, inclusive no primeiro carregamento.
+function sincronizar() {
+  for (const [nome, grupo] of Object.entries(grupos)) {
+    const marcado = doc.querySelector(`${grupo.seletor} [aria-pressed="true"]`);
     const valor = marcado ? marcado.dataset.v : null;
-    document.querySelectorAll(`[data-acao="${acao}"]`).forEach((b) => {
-      b.setAttribute("aria-pressed", String(b.dataset.v === valor));
+    document.querySelectorAll(`[data-grupo="${nome}"] .opcao`).forEach((botao) => {
+      botao.setAttribute("aria-pressed", String(botao.dataset.v === valor));
     });
   }
 }
 
-function resultadoDaObra() {
+function escolher(nome, opcao) {
   if (!doc) return;
-  sincronizarBotoes();
-  const v = doc.getElementById("verdict");
-  if (!v) return;
-  const frase = v.textContent.split(". ")[0].trim();
-  $("resultadoTexto").textContent = frase ? `Resultado: ${frase}.` : "";
-  $("resultadoTexto").hidden = !frase;
-}
-
-// Os controles do cliente apenas acionam os controles da própria simulação.
-function acionar(acao, valor) {
-  if (!doc) return;
-  const alvo = {
-    potencia: `#allW [data-v="${valor}"]`,
-    cor: `#allC [data-v="${valor}"]`,
-    altura: `#allH [data-v="${valor}"]`,
-  }[acao];
-  const el = alvo && doc.querySelector(alvo);
+  const el = doc.querySelector(`${grupos[nome].seletor} [data-v="${opcao.v}"]`);
   if (el) el.click();
-  document.querySelectorAll(`[data-acao="${acao}"]`).forEach((b) => {
-    b.setAttribute("aria-pressed", String(b.dataset.v === String(valor)));
-  });
-  setTimeout(resultadoDaObra, 250);
+  sincronizar();
+  falar(opcao.reacao);
+  setTimeout(mostrarResultado, 250);
 }
 
-// Esconde o que é só da equipe, deixando só a cena e a explicação.
+function mostrarResultado() {
+  const verdict = doc && doc.getElementById("verdict");
+  const frase = verdict ? verdict.textContent.split(". ")[0].trim() : "";
+  $("resultadoTexto").textContent = frase ? `${frase}.` : "";
+  $("resultado").hidden = !frase || !passos[passo].resultado;
+}
+
+function mostrarProgresso() {
+  document.querySelectorAll(".progresso span").forEach((traco, i) => {
+    traco.classList.toggle("on", i <= passo);
+  });
+}
+
+function mostrarPasso() {
+  const atual = passos[passo];
+  falar(atual.fala);
+  document.querySelectorAll(".grupo").forEach((grupo) => {
+    grupo.hidden = !atual.mostra.includes(grupo.dataset.grupo);
+  });
+  $("proximo").textContent = passo === passos.length - 1 ? "Testar de novo" : "Próximo";
+  mostrarProgresso();
+  if (atual.resultado) mostrarResultado();
+  else $("resultado").hidden = true;
+}
+
+$("proximo").addEventListener("click", () => {
+  passo = passo === passos.length - 1 ? 1 : passo + 1;
+  mostrarPasso();
+});
+
+// Esconde o que é só da equipe: a cena e o eletricista ficam, o resto some.
 function limparParaCliente(janela) {
   const estilo = janela.document.createElement("style");
   estilo.textContent = `
-    #hdr,#hud,#strip,#side,#ttl,#legend,#movebar,#editbar{display:none!important}
+    #hdr,#hud,#strip,#side,#ttl,#legend,#movebar,#editbar,#stubs{display:none!important}
     #app{grid-template-rows:1fr!important;grid-template-columns:minmax(0,1fr)!important}
     #view{grid-row:1;grid-column:1}`;
   janela.document.head.appendChild(estilo);
   setTimeout(() => janela.dispatchEvent(new Event("resize")), 200);
 }
 
-$("formCliente").addEventListener("submit", async (evento) => {
-  evento.preventDefault();
-  try {
-    const resposta = await fetch(`obras/${rg}.json`);
-    if (!resposta.ok) throw new TypeError(`obras/${rg}.json ${resposta.status}`);
-    const html = await decryptObra(await resposta.json(), $("senhaCliente").value);
-    const quadro = $("obraCliente");
-    quadro.onload = () => {
-      doc = quadro.contentDocument;
-      limparParaCliente(quadro.contentWindow);
-      resultadoDaObra();
-    };
-    quadro.srcdoc = html;
-    $("entrada").hidden = true;
-    $("palco").style.display = "flex";
-    mostrarFala();
-  } catch (err) {
-    $("erroCliente").textContent = mensagemDeErro(err);
-    $("erroCliente").hidden = false;
+function mostrarErro(texto) {
+  $("avisoTexto").textContent = texto;
+  $("avisoTexto").hidden = false;
+  $("ver").hidden = true;
+}
+
+// A tela "Ver" só libera quando a simulação já está na página, para o toque abrir direto.
+$("ver").addEventListener("click", () => {
+  $("inicio").hidden = true;
+  mostrarPasso();
+});
+
+async function carregarSimulacao() {
+  if (!rg || !chave) {
+    mostrarErro("Este link não está completo. Peça um novo link à Voltec.");
+    return;
   }
-});
+  $("rgTopo").textContent = `RG ${rg}`;
+  $("rgInicio").textContent = `RG ${rg}`;
+  if (!window.isSecureContext) {
+    mostrarErro("Este endereço é http. Abra pelo endereço seguro (https) para ver sua simulação.");
+    return;
+  }
+  let html;
+  try {
+    const resposta = await fetch(`obras/${rg}.cliente.json`);
+    if (!resposta.ok) throw new TypeError(`obras/${rg}.cliente.json ${resposta.status}`);
+    html = await decryptComChave(await resposta.json(), chave);
+  } catch (err) {
+    const chaveErrada = err.name === "OperationError" || err.name === "DataError";
+    mostrarErro(
+      chaveErrada
+        ? "Este link não abre a simulação. Peça um novo link à Voltec."
+        : "Não foi possível abrir sua simulação. Confira a internet e tente de novo.",
+    );
+    return;
+  }
 
-document.querySelectorAll("[data-acao]").forEach((b) => {
-  b.addEventListener("click", () => acionar(b.dataset.acao, b.dataset.v));
-});
+  const quadro = $("obraCliente");
+  quadro.onload = () => {
+    doc = quadro.contentDocument;
+    limparParaCliente(quadro.contentWindow);
+    montarOpcoes();
+    sincronizar();
+    mostrarResultado();
+  };
+  quadro.srcdoc = html;
+  $("ver").disabled = false;
+}
 
-$("proximo").addEventListener("click", () => {
-  passo = passo === falas.length - 1 ? 0 : passo + 1;
-  mostrarFala();
-});
+carregarSimulacao();

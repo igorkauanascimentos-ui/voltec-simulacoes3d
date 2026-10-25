@@ -1,0 +1,246 @@
+/* Página do cliente. O eletricista é a interface: fica em pé sobre a cena, sem caixa atrás.
+   Azul-marinho da marca, amarelo só para a escolha e a ação. Montserrat em uma família. */
+:root {
+  --azul: #022449;
+  --azul-fundo: #041F3D;
+  --azul-vidro: rgba(2, 36, 73, .72);
+  --amarelo: #FDB50B;
+  --amarelo-claro: #FFC23D;
+  --branco: #FFFFFF;
+  --gelo: #E8E9EB;
+  --cinza-texto: #C9D3E0;
+  --fonte: "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  font-family: var(--fonte);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--branco);
+  background: var(--azul-fundo);
+}
+
+body { display: flex; flex-direction: column; overflow: hidden; }
+
+[hidden] { display: none !important; }
+
+.topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  background: var(--azul);
+  border-bottom: 1px solid rgba(253, 181, 11, .3);
+  position: relative;
+  z-index: 3;
+}
+.logo { height: 24px; width: auto; display: block; }
+.rg { font-size: 13px; font-weight: 600; color: var(--gelo); margin: 0; }
+
+main { flex: 1; position: relative; min-height: 0; }
+
+/* entrada: o eletricista sobe, o texto vem logo depois */
+.inicio {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: radial-gradient(circle at 50% 35%, #0A2B4E 0%, #041F3D 70%);
+}
+.inicio[hidden] { display: none; }
+.inicio-caixa {
+  width: 100%;
+  max-width: 340px;
+  text-align: center;
+}
+.eletricista-grande {
+  width: 150px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, .45));
+  animation: subir .9s cubic-bezier(.2, .7, .2, 1) both;
+}
+.inicio h1 { margin: 0; font-size: 30px; font-weight: 800; line-height: 1.15; animation: aparecer .6s .3s ease-out both; }
+.rg-grande { margin: 6px 0 12px; font-size: 14px; font-weight: 600; color: var(--amarelo); animation: aparecer .6s .4s ease-out both; }
+.apoio { margin: 0 0 28px; font-size: 15px; color: var(--cinza-texto); animation: aparecer .6s .5s ease-out both; }
+
+.botao-grande {
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  width: 100%;
+  min-height: 58px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--amarelo);
+  color: var(--azul);
+  cursor: pointer;
+  animation: aparecer .6s .6s ease-out both;
+  transition: background .2s ease;
+}
+.botao-grande:hover { background: var(--amarelo-claro); }
+.botao-grande:disabled { opacity: .45; cursor: default; }
+
+.aviso { margin: 20px 0 0; font-size: 15px; color: #FFD3C9; }
+
+/* simulação: a cena ocupa a tela inteira */
+#palco { position: absolute; inset: 0; }
+#obraCliente {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: var(--azul-fundo);
+}
+
+/* painel: sem fundo. Só o eletricista, o balão e os botões ficam sobre a cena */
+#painel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0 16px calc(16px + env(safe-area-inset-bottom, 0px));
+  pointer-events: none;
+}
+#painel > * { pointer-events: auto; }
+#painel { animation: aparecer .5s .15s ease-out both; }
+
+.progresso { display: flex; gap: 6px; }
+.progresso span {
+  flex: 1;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, .22);
+  transition: background .4s ease;
+}
+.progresso span.on { background: var(--amarelo); }
+
+.guia {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  gap: 10px;
+  align-items: end;
+}
+.eletricista {
+  width: 110px;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .5));
+}
+
+.balao {
+  position: relative;
+  background: var(--branco);
+  color: var(--azul);
+  border-radius: 20px 20px 20px 6px;
+  padding: 14px 16px;
+  font-size: 15px;
+  line-height: 1.5;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .28);
+}
+.balao p { margin: 0; }
+.balao.trocando p { animation: aparecer .35s ease-out both; }
+
+#controles { display: flex; flex-direction: column; gap: 12px; }
+.grupo { display: flex; flex-direction: column; gap: 8px; }
+.grupo .nome { margin: 0; font-size: 13px; font-weight: 600; color: var(--gelo); text-shadow: 0 1px 6px rgba(0, 0, 0, .6); }
+.opcoes { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.opcao {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  min-height: 44px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .28);
+  background: var(--azul-vidro);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--branco);
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, color .2s ease;
+}
+.opcao:hover { border-color: var(--amarelo); }
+.opcao[aria-pressed="true"] { background: var(--amarelo); border-color: var(--amarelo); color: var(--azul); }
+
+.resultado {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--azul-vidro);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border-left: 3px solid var(--amarelo);
+  animation: aparecer .4s ease-out both;
+}
+.resultado-titulo { margin: 0 0 2px; font-size: 12px; font-weight: 600; color: var(--amarelo); }
+.resultado p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--gelo); }
+
+.botao {
+  font: inherit;
+  font-weight: 700;
+  font-size: 16px;
+  min-height: 50px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 14px;
+  background: var(--amarelo);
+  color: var(--azul);
+  cursor: pointer;
+  transition: background .2s ease;
+}
+.botao:hover { background: var(--amarelo-claro); }
+
+:focus-visible { outline: 3px solid var(--amarelo); outline-offset: 3px; }
+
+@keyframes subir { from { opacity: 0; transform: translateY(36px); } to { opacity: 1; transform: none; } }
+@keyframes aparecer { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* computador: o eletricista fica no canto inferior, o balão ao lado, os botões embaixo */
+/* computador: tudo cabe numa tela só, sem rolagem. O eletricista e o balão ficam
+   pequenos o bastante para o conjunto inteiro caber. */
+@media (min-width: 900px) {
+  .topo { padding: 16px 36px; }
+  .logo { height: 28px; }
+  .inicio h1 { font-size: 44px; }
+  .inicio-caixa { max-width: 400px; }
+  .eletricista-grande { width: 190px; }
+  #painel {
+    left: 40px;
+    right: auto;
+    bottom: 24px;
+    width: 520px;
+    padding: 0;
+    gap: 12px;
+  }
+  .guia { grid-template-columns: 124px minmax(0, 1fr); gap: 14px; }
+  .eletricista { width: 124px; }
+  .balao { font-size: 16px; padding: 14px 18px; }
+  .grupo { gap: 6px; }
+  .opcao { font-size: 14px; min-height: 40px; padding: 8px 15px; }
+  .botao { align-self: flex-start; min-width: 190px; min-height: 46px; }
+}
+
+/* telas baixas (notebooks, janelas pequenas): o conjunto encolhe em vez de rolar */
+@media (min-width: 900px) and (max-height: 780px) {
+  .eletricista { width: 104px; }
+  .guia { grid-template-columns: 104px minmax(0, 1fr); }
+  .balao { font-size: 15px; padding: 12px 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

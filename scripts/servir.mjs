@@ -44,7 +44,8 @@ const aqui = fileURLToPath(import.meta.url);
 if (process.argv[1] && resolve(process.argv[1]) === aqui) {
   const porta = Number(process.env.PORTA || 8080);
   const pasta = resolve(dirname(aqui), "..", "app", "dist");
-  criarServidor(pasta).listen(porta, "127.0.0.1", () => {
+  const endereco = process.env.HOST || "127.0.0.1";
+  criarServidor(pasta).listen(porta, endereco, () => {
     console.log(`Abra no navegador: http://localhost:${porta}`);
     console.log("Para parar: Ctrl+C neste terminal.");
   });
