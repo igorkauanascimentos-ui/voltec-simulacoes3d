@@ -37,7 +37,7 @@ function desenharLista(obras) {
     const botao = document.createElement("button");
     botao.type = "button";
     botao.className = "card";
-    botao.innerHTML = `<span><span class="rg">RG ${rg}</span><span class="sub" style="display:block">Toque para abrir</span></span><span class="seta" aria-hidden="true">→</span>`;
+    botao.innerHTML = `<span><span class="rg">RG ${rg}</span><span class="sub">Abrir simulação</span></span><span class="seta" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>`;
     botao.addEventListener("click", () => (senhasDaSessao.has(rg) ? reabrir(rg) : pedirSenha(rg)));
     cards.append(botao);
   }
