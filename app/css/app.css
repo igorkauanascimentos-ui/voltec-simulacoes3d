@@ -73,7 +73,7 @@ main { flex: 1; display: flex; flex-direction: column; }
   font-weight: 800;
   line-height: 1.12;
   letter-spacing: -0.015em;
-  max-width: 14ch;
+  max-width: 18ch;
 }
 .destaque { color: var(--amarelo); display: block; }
 .apoio {

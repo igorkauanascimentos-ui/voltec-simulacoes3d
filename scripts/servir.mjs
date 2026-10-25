@@ -13,6 +13,7 @@ const MIME = {
   ".png": "image/png",
   ".jpg": "image/jpeg",
   ".woff2": "font/woff2",
+  ".svg": "image/svg+xml",
 };
 
 // Serve a pasta como o GitHub Pages faria: arquivo certo, tipo certo, nada fora dela.
