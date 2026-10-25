@@ -1,0 +1,8 @@
+{
+  "name": "voltec-simulacoes",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}
