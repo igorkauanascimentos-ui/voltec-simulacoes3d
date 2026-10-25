@@ -3,6 +3,7 @@ import { copyFile, mkdir, readFile, readdir, stat, writeFile } from "node:fs/pro
 import { basename, dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { encryptObra } from "../app/js/crypto.js";
+import { prepararObra } from "./obra.mjs";
 
 // Obras cifradas e índice. Com `casca` (pasta app/), também publica a casca,
 // a lista de pré-cache e o sw.js com a versão deste build.
@@ -18,7 +19,8 @@ export async function buildObras({ origem, destino, senhas, casca }) {
 
   await mkdir(join(destino, "obras"), { recursive: true });
   for (const rg of obras) {
-    const html = await readFile(join(origem, `${rg}.html`), "utf8");
+    const bruto = await readFile(join(origem, `${rg}.html`), "utf8");
+    const html = casca ? await prepararObra(bruto, casca) : bruto;
     const obj = await encryptObra(html, senhas[rg]);
     await writeFile(join(destino, "obras", `${rg}.json`), JSON.stringify(obj));
   }
