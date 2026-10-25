@@ -72,6 +72,7 @@ async function abrirObra(rg, senha) {
 }
 
 function mostrarObra(rg, html) {
+  rgAtual = rg;
   $("#visorRG").textContent = `Obra ${rg}`;
   obra.srcdoc = html;
   mostrar("visor");
@@ -104,3 +105,20 @@ if ("serviceWorker" in navigator) {
     // Sem service worker o app continua funcionando, só não abre offline.
   });
 }
+
+// Compartilhar: no celular abre o menu do aparelho (WhatsApp etc.); no computador copia o link.
+$("compartilhar").addEventListener("click", async () => {
+  const link = new URL(`cliente.html?rg=${rgAtual}`, location.href).href;
+  const botao = $("compartilhar");
+  try {
+    if (navigator.share) {
+      await navigator.share({ title: "Simulação de iluminação Voltec", text: `Veja a luz da sua obra (RG ${rgAtual}).`, url: link });
+      return;
+    }
+    await navigator.clipboard.writeText(link);
+    botao.textContent = "Link copiado";
+    setTimeout(() => (botao.textContent = "Compartilhar"), 2500);
+  } catch (_) {
+    // cancelado pela pessoa ou sem permissão de copiar: nada a fazer
+  }
+});
