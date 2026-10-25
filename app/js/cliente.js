@@ -21,8 +21,22 @@ function mostrarFala() {
   $("resultadoTexto").hidden = true;
 }
 
+// Os botões do cliente seguem o que a simulação mostra, inclusive no primeiro carregamento.
+const grupos = { potencia: "allW", cor: "allC", altura: "allH" };
+function sincronizarBotoes() {
+  for (const [acao, id] of Object.entries(grupos)) {
+    const marcado = doc.querySelector(`#${id} [aria-pressed="true"]`);
+    const valor = marcado ? marcado.dataset.v : null;
+    document.querySelectorAll(`[data-acao="${acao}"]`).forEach((b) => {
+      b.setAttribute("aria-pressed", String(b.dataset.v === valor));
+    });
+  }
+}
+
 function resultadoDaObra() {
-  const v = doc && doc.getElementById("verdict");
+  if (!doc) return;
+  sincronizarBotoes();
+  const v = doc.getElementById("verdict");
   if (!v) return;
   const frase = v.textContent.split(". ")[0].trim();
   $("resultadoTexto").textContent = frase ? `Resultado: ${frase}.` : "";
