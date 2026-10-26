@@ -245,3 +245,35 @@ main { flex: 1; position: relative; min-height: 0; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* celular: a cena ocupa a maior parte da tela; o eletricista e os controles ficam compactos
+   e com contraste forte (fundo sólido, não vidro transparente) */
+@media (max-width: 899px) {
+  #painel {
+    max-height: 46%;
+    gap: 8px;
+    padding: 0 12px calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+  .progresso { max-width: none; }
+  .guia { grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: end; }
+  .eletricista { width: auto; height: 118px; }
+  .balao { font-size: 14px; line-height: 1.45; padding: 10px 13px; border-radius: 16px 16px 16px 4px; }
+  .grupo { gap: 4px; }
+  .grupo .nome { font-size: 12px; }
+  .opcoes { gap: 6px; }
+  .opcao {
+    min-height: 38px;
+    padding: 7px 13px;
+    font-size: 13px;
+    background: var(--azul);
+    border: 1px solid rgba(255, 255, 255, .55);
+    color: var(--branco);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .opcao[aria-pressed="true"] { background: var(--amarelo); border-color: var(--amarelo); color: var(--azul); }
+  .resultado { padding: 9px 12px; background: var(--azul); -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .resultado p { font-size: 13px; }
+  .botao { min-height: 44px; font-size: 15px; padding: 10px 16px; }
+  .aviso { font-size: 14px; }
+}

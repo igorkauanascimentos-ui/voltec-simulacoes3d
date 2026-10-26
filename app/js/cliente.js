@@ -138,6 +138,7 @@ $("ver").addEventListener("click", () => {
 });
 
 async function carregarSimulacao() {
+  $("ver").textContent = "Preparando…";
   if (!rg || !chave) {
     mostrarErro("Este link não está completo. Peça um novo link à Voltec.");
     return;
@@ -173,6 +174,7 @@ async function carregarSimulacao() {
   };
   quadro.srcdoc = html;
   $("ver").disabled = false;
+  $("ver").textContent = "Ver meu projeto";
 }
 
 carregarSimulacao();
