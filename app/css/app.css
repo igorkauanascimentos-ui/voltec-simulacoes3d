@@ -1,3 +1,4 @@
+:root { color-scheme: light; }
 /* Voltec: azul-marinho dominante, cinza gelo nas listas, amarelo só no botão e no fio de circuito.
    Montserrat em uma família só. Sem caixa-alta nos rótulos. */
 :root {
@@ -322,3 +323,17 @@ main { flex: 1; display: flex; flex-direction: column; }
 .barra .voltar svg { width: 18px; height: 18px; }
 .visor-rg { font-size: 15px; font-weight: 700; color: var(--branco); letter-spacing: .01em; }
 .barra .botao-pequeno { justify-self: end; }
+
+/* fio amarelo: uma faixa própria, abaixo do texto, para não cortar a leitura */
+.topo { padding-bottom: 20px; }
+.fio {
+  position: static;
+  display: block;
+  width: 100%;
+  height: 64px;
+  margin-top: 22px;
+}
+@media (min-width: 900px) {
+  .topo { padding-bottom: 28px; }
+  .fio { height: 72px; margin-top: 28px; }
+}

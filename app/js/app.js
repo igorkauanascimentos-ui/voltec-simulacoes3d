@@ -70,11 +70,14 @@ function buscarArquivo(rg) {
   return arquivos.get(rg);
 }
 
+const MSG_HTTP = "Este endereço é http, e o celular não libera a criptografia. Ative o endereço como seguro (veja as instruções da Voltec) ou abra pelo https do site.";
+
 function pedirSenha(rg) {
   rgAtual = rg;
   $("#senhaRG").textContent = `Obra ${rg}`;
   $("#campoSenha").value = "";
-  $("#erroSenha").hidden = true;
+  $("#erroSenha").textContent = MSG_HTTP;
+  $("#erroSenha").hidden = window.isSecureContext;
   mostrar("senha");
   $("#campoSenha").focus();
   buscarArquivo(rg).catch(() => {});
@@ -92,7 +95,8 @@ async function abrirObra(rg, senha) {
 const ESTILO_VISOR = `
   #hdr{display:none!important}
   @media (min-width:900px){#app{grid-template-rows:1fr!important}#view,#side{grid-row:1!important}}
-  @media (max-width:899px){#app{grid-template-rows:1fr auto!important}#view{grid-row:1!important}#side{grid-row:2!important}}
+  @media (max-width:899px){#app{grid-template-rows:1fr auto!important}#view{grid-row:1!important}#side{grid-row:2!important;max-height:56vh!important}#side.min{max-height:none!important}#side.min #tabs,#side.min #pages{display:flex!important}#side.min #pages{display:block!important}}
+  :root{color-scheme:light}
   /* leitura para a equipe: sem caixa-alta, texto legível, um só destaque de estado (amarelo) */
   #ttl small{font-size:12px;font-weight:600;letter-spacing:0;text-transform:none;color:#C8CBD0}
   #ttl h1{font-size:22px;font-weight:700;margin:2px 0 0}
@@ -124,6 +128,8 @@ function mostrarObra(rg, html) {
   $("#visorRG").textContent = `Obra ${rg}`;
   $("#compartilhar").textContent = "Compartilhar";
   obra.onload = () => {
+    const doc = obra.contentDocument;
+    if (window.matchMedia("(max-width:899px)").matches) doc.getElementById("side").classList.remove("min");
     const estilo = obra.contentDocument.createElement("style");
     estilo.textContent = ESTILO_VISOR;
     obra.contentDocument.head.appendChild(estilo);
@@ -144,7 +150,7 @@ $("#formSenha").addEventListener("submit", async (evento) => {
   try {
     mostrarObra(rg, await abrirObra(rg, senha));
   } catch (err) {
-    $("#erroSenha").textContent = mensagemDeErro(err);
+    $("#erroSenha").textContent = window.isSecureContext ? mensagemDeErro(err) : MSG_HTTP;
     $("#erroSenha").hidden = false;
   } finally {
     botao.disabled = false;

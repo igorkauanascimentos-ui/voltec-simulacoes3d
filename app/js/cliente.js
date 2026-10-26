@@ -118,6 +118,7 @@ function limparParaCliente(janela) {
   const estilo = janela.document.createElement("style");
   estilo.textContent = `
     #hdr,#hud,#strip,#side,#ttl,#legend,#movebar,#editbar,#stubs{display:none!important}
+    :root{color-scheme:light}
     #app{grid-template-rows:1fr!important;grid-template-columns:minmax(0,1fr)!important}
     #view{grid-row:1;grid-column:1}`;
   janela.document.head.appendChild(estilo);
