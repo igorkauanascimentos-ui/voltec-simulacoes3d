@@ -256,7 +256,7 @@ main { flex: 1; position: relative; min-height: 0; }
   }
   .progresso { max-width: none; }
   .guia { grid-template-columns: auto minmax(0, 1fr); gap: 10px; align-items: end; }
-  .eletricista { width: auto; height: 118px; }
+  .eletricista { width: auto; height: 92px; }
   .balao { font-size: 14px; line-height: 1.45; padding: 10px 13px; border-radius: 16px 16px 16px 4px; }
   .grupo { gap: 4px; }
   .grupo .nome { font-size: 12px; }

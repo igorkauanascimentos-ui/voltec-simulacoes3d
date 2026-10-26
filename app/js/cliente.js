@@ -7,19 +7,19 @@ const chave = location.hash.slice(1) || null;
 // Cada passo é uma fala do eletricista. Os controles aparecem no passo em que ele os apresenta.
 const passos = [
   {
-    fala: "Oi, eu sou o eletricista da Voltec. Este é o seu projeto à noite, com a luz desenhada para ele. Vou te mostrar como ajustar.",
+    fala: "Oi! Este é o seu projeto à noite. Vou te mostrar como ajustar a luz.",
     mostra: [],
   },
   {
-    fala: "Primeiro, a potência. Ela define o quanto a luz ilumina. Toque numa opção e veja a cena mudar.",
+    fala: "Primeiro, a potência: quanto a luz ilumina. Toque numa opção.",
     mostra: ["intensidade"],
   },
   {
-    fala: "Agora, a cor. A luz quente deixa o ambiente acolhedor. A neutra deixa tudo mais nítido. Escolha a que preferir.",
+    fala: "Agora, a cor. Toque numa opção e veja a diferença.",
     mostra: ["intensidade", "temperatura"],
   },
   {
-    fala: "Pronto. Este é o resultado da sua escolha. Se quiser, volte e teste outra combinação.",
+    fala: "Pronto. Veja o resultado da sua escolha.",
     mostra: ["intensidade", "temperatura"],
     resultado: true,
   },
@@ -78,9 +78,12 @@ function escolher(nome, opcao) {
   if (!doc) return;
   const el = doc.querySelector(`${grupos[nome].seletor} [data-v="${opcao.v}"]`);
   if (el) el.click();
-  sincronizar();
+  // a escolha aparece já; a simulação termina o cálculo logo depois e confirma
+  document.querySelectorAll(`[data-grupo="${nome}"] .opcao`).forEach((botao) => {
+    botao.setAttribute("aria-pressed", String(botao.dataset.v === opcao.v));
+  });
   falar(opcao.reacao);
-  setTimeout(mostrarResultado, 250);
+  for (const atraso of [300, 1500]) setTimeout(() => { sincronizar(); mostrarResultado(); }, atraso);
 }
 
 function mostrarResultado() {
@@ -172,6 +175,8 @@ async function carregarSimulacao() {
     sincronizar();
     mostrarResultado();
   };
+  // marca que é o cliente: a simulação pula o que só a equipe usa (miniaturas)
+  html = html.replace(/<head([^>]*)>/i, (abre) => abre + "<script>window.__cliente=true</script>");
   quadro.srcdoc = html;
   $("ver").disabled = false;
   $("ver").textContent = "Ver meu projeto";
