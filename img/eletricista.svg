@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280" role="img" aria-label="Eletricista da Voltec">
+  <!-- cabeça -->
+  <circle cx="100" cy="82" r="36" fill="#F2C9A0"/>
+  <!-- boné azul-marinho com o ponto amarelo da logo -->
+  <path d="M62 74 Q62 40 100 40 Q138 40 138 74 Z" fill="#022449"/>
+  <rect x="54" y="68" width="92" height="10" rx="5" fill="#022449"/>
+  <circle cx="100" cy="54" r="4" fill="#FDB50B"/>
+  <!-- rosto -->
+  <circle cx="88" cy="88" r="4" fill="#022449"/>
+  <circle cx="112" cy="88" r="4" fill="#022449"/>
+  <path d="M88 102 Q100 112 112 102" fill="none" stroke="#022449" stroke-width="3" stroke-linecap="round"/>
+  <!-- camisa polo azul-marinho com friso amarelo -->
+  <path d="M60 124 Q100 108 140 124 L150 222 L50 222 Z" fill="#022449"/>
+  <path d="M84 118 L100 142 L116 118" fill="none" stroke="#FDB50B" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M62 130 L44 200 L57 204 L76 136 Z" fill="#022449"/>
+  <path d="M138 130 L158 196 L145 200 L124 136 Z" fill="#022449"/>
+  <path d="M46 196 L58 200" stroke="#FDB50B" stroke-width="3" stroke-linecap="round"/>
+  <path d="M146 192 L158 196" stroke="#FDB50B" stroke-width="3" stroke-linecap="round"/>
+  <!-- mãos -->
+  <circle cx="47" cy="206" r="8" fill="#F2C9A0"/>
+  <circle cx="153" cy="202" r="8" fill="#F2C9A0"/>
+  <!-- chave de fenda amarela -->
+  <path d="M155 204 L180 240" stroke="#FDB50B" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="181" cy="242" r="6" fill="#022449"/>
+  <!-- cinto e calça -->
+  <rect x="52" y="214" width="96" height="10" rx="3" fill="#444444"/>
+  <rect x="64" y="224" width="30" height="48" rx="4" fill="#022449"/>
+  <rect x="106" y="224" width="30" height="48" rx="4" fill="#022449"/>
+  <!-- botas -->
+  <rect x="58" y="270" width="40" height="10" rx="4" fill="#444444"/>
+  <rect x="102" y="270" width="40" height="10" rx="4" fill="#444444"/>
+</svg>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Voltec · Simulações de iluminação</title>
+  <meta name="description" content="Simulação de iluminação da sua obra. Voltec Soluções Elétricas, eletricista.">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#022449">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="img/icon-192.png">
+  <link rel="stylesheet" href="vendor/montserrat.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <main>
+    <section id="lista" class="tela">
+      <header class="topo">
+        <img src="img/logo-branca.svg" alt="Voltec Soluções Elétricas" class="logo">
+        <svg class="fio" viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M 0 96 L 150 96 Q 170 96 178 80 L 226 24 Q 232 16 244 16 L 400 16" pathLength="1"/>
+          <circle cx="400" cy="16" r="6"/>
+        </svg>
+        <h1>Veja a luz da sua obra antes de instalar</h1>
+        <p class="apoio">Digite o RG da obra e a senha que a Voltec enviou.</p>
+      </header>
+
+      <div class="lista-obras">
+        <div class="cabeca-lista">
+          <h2 class="rotulo">Obras disponíveis</h2>
+          <button type="button" id="novaObra" class="mais" aria-label="Adicionar projeto">+</button>
+        </div>
+        <div id="cards" class="cards"></div>
+        <p id="aviso" class="aviso" hidden></p>
+      </div>
+      <footer class="rodape">Voltec Soluções Elétricas · eletricista</footer>
+    </section>
+
+    <dialog id="dialogoNova" class="dialogo" aria-labelledby="tituloNova">
+      <form id="formNova" class="form" method="dialog">
+        <p class="rotulo" id="tituloNova">Adicionar projeto</p>
+        <p class="ajuda">Precisa de internet. Depois de carregado, o projeto abre sem internet neste aparelho.</p>
+        <label for="novoRG">RG da obra</label>
+        <input id="novoRG" inputmode="numeric" maxlength="5" placeholder="00003" autocomplete="off" required>
+        <label for="novaSenha">Senha da obra</label>
+        <input id="novaSenha" type="password" autocomplete="new-password" required>
+        <label for="novoArquivo">Arquivo HTML da simulação</label>
+        <input id="novoArquivo" type="file" accept=".html,text/html" required>
+        <div id="campoToken" hidden>
+          <label for="tokenGitHub">Token do GitHub (fica só neste aparelho)</label>
+          <input id="tokenGitHub" type="password" autocomplete="off" spellcheck="false">
+        </div>
+        <p id="erroNova" class="erro" role="alert" hidden></p>
+        <p id="progressoNova" class="ajuda" role="status" hidden></p>
+        <div class="acoes">
+          <button type="button" id="cancelarNova" class="link">Cancelar</button>
+          <button type="submit" class="botao" id="enviarNova">Salvar projeto</button>
+        </div>
+      </form>
+    </dialog>
+
+    <section id="senha" class="tela tela-senha" hidden>
+      <header class="topo">
+        <img src="img/logo-branca.svg" alt="Voltec Soluções Elétricas" class="logo">
+      </header>
+      <form id="formSenha" class="form">
+        <p class="rotulo" id="senhaRG"></p>
+        <label for="campoSenha">Senha da obra</label>
+        <input id="campoSenha" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" required>
+        <button type="submit" class="botao">Abrir simulação</button>
+        <button type="button" id="voltarLista" class="link">Voltar às obras</button>
+        <p id="erroSenha" class="erro" role="alert" hidden></p>
+      </form>
+    </section>
+
+    <section id="visor" class="visor" hidden>
+      <div class="barra">
+        <button type="button" id="trocar" class="voltar"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>Obras</button>
+        <span id="visorRG" class="visor-rg"></span>
+        <button type="button" id="compartilhar" class="botao-pequeno">Compartilhar</button>
+      </div>
+      <iframe id="obra" title="Simulação 3D da obra" sandbox="allow-scripts allow-same-origin"></iframe>
+    </section>
+  </main>
+
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

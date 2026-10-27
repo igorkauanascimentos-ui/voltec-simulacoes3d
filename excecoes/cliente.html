@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>Seu projeto · Voltec</title>
+  <meta name="description" content="Veja como a luz do seu projeto fica à noite, antes de instalar. Voltec Soluções Elétricas.">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#022449">
+  <link rel="icon" href="img/icon-192.png">
+  <link rel="stylesheet" href="vendor/montserrat.css">
+  <link rel="stylesheet" href="css/cliente.css">
+</head>
+<body>
+  <header class="topo">
+    <img src="img/logo-branca.svg" alt="Voltec Soluções Elétricas" class="logo">
+    <span id="rgTopo" class="rg"></span>
+  </header>
+
+  <main>
+    <section id="inicio" class="inicio">
+      <div class="inicio-caixa">
+        <img class="eletricista-grande" src="img/eletricista.png" alt="Eletricista Voltec" width="240" height="494">
+        <h1>Veja o seu projeto</h1>
+        <p id="rgInicio" class="rg-grande"></p>
+        <p class="apoio">Como a luz vai ficar à noite, antes de instalar. Você escolhe a potência e a cor, e vê o resultado na hora.</p>
+        <button id="ver" class="botao-grande" type="button">Ver meu projeto</button>
+        <p id="avisoTexto" class="aviso" role="alert" hidden></p>
+      </div>
+    </section>
+
+    <section id="palco">
+      <iframe id="obraCliente" title="Simulação 3D do seu projeto"></iframe>
+
+      <div id="painel">
+        <div class="guia">
+          <img class="eletricista" src="img/eletricista.png" alt="Eletricista Voltec" width="150" height="308">
+          <div class="balao" role="status" aria-live="polite">
+            <p id="falaTexto"></p>
+          </div>
+        </div>
+
+        <button id="entendi" class="botao" type="button">Entendi</button>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="js/cliente.js"></script>
+</body>
+</html>
